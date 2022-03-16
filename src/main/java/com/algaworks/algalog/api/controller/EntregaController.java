@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.algaworks.algalog.api.assembler.EntregaAssembler;
 import com.algaworks.algalog.api.dto.EntregaResponse;
+import com.algaworks.algalog.api.dto.request.EntregaRequest;
 import com.algaworks.algalog.domain.model.Entrega;
 import com.algaworks.algalog.domain.repository.EntregaRepository;
 import com.algaworks.algalog.service.SolicitacaoEntregaService;
@@ -32,8 +33,9 @@ public class EntregaController {
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public EntregaResponse solicitar(@Valid @RequestBody Entrega entrega) {
-		Entrega entregaSolicitada = solicitacaoEntregaService.solicitar(entrega);
+	public EntregaResponse solicitar(@Valid @RequestBody EntregaRequest entregaRequest) {
+		Entrega novaEntrega = entregaAssembler.toEntity(entregaRequest);
+		Entrega entregaSolicitada = solicitacaoEntregaService.solicitar(novaEntrega);
 		return entregaAssembler.toModel(entregaSolicitada);
 	}
 
