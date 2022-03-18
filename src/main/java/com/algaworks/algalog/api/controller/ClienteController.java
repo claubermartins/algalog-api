@@ -1,7 +1,6 @@
 package com.algaworks.algalog.api.controller;
 
 import java.util.List;
-//import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -42,16 +41,10 @@ public class ClienteController {
 				.map(ResponseEntity::ok)
 				.orElse(ResponseEntity.notFound().build());
 	}
-//		Optional<Cliente> cliente = clienteRepository.findById(clienteId);
-//		if (cliente.isPresent()) {
-//			return ResponseEntity.ok(cliente.get());
-//		}
-//		return ResponseEntity.notFound().build();
 	
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping
 	public Cliente adicionar(@Valid @RequestBody Cliente cliente) {
-//		return clienteRepository.save(cliente);
 		return catalogoClienteService.salvar(cliente);
 	}
 	
@@ -63,7 +56,6 @@ public class ClienteController {
 		}
 		
 		cliente.setId(clienteId);
-//		cliente = clienteRepository.save(cliente);
 		cliente =  catalogoClienteService.salvar(cliente);
 		
 		return ResponseEntity.ok(cliente);
@@ -74,7 +66,6 @@ public class ClienteController {
 		if (!clienteRepository.existsById(clienteId)) {
 			return ResponseEntity.notFound().build();
 		}
-//		clienteRepository.deleteById(clienteId);
 		catalogoClienteService.excluir(clienteId);
 		
 		return ResponseEntity.noContent().build();
