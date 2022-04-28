@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import io.swagger.annotations.ApiOperation;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,12 +31,14 @@ public class ClienteController {
 
 	private ClienteRepository clienteRepository;
 	private CatalogoClienteService catalogoClienteService;
-
+	
+	@ApiOperation(value = "Lista de clientes")
 	@GetMapping
 	public List<Cliente> listar() {
 		return clienteRepository.findAll();
 	}
-
+	
+	@ApiOperation(value = "Buscar cliente por Id")
 	@GetMapping("/{clienteId}")
 	public ResponseEntity<Cliente> buscar(@PathVariable Long clienteId) {
 		return clienteRepository.findById(clienteId)
@@ -42,12 +46,14 @@ public class ClienteController {
 				.orElse(ResponseEntity.notFound().build());
 	}
 	
+	@ApiOperation(value = "Adicionando um novo cliente")
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping
 	public Cliente adicionar(@Valid @RequestBody Cliente cliente) {
 		return catalogoClienteService.salvar(cliente);
 	}
 	
+	@ApiOperation(value = "Atualizando informações de um determinado cliente")
 	@PutMapping("/{clienteId}")
 	public ResponseEntity<Cliente> atualizar(@PathVariable Long clienteId,
 			@Valid @RequestBody Cliente cliente){
@@ -61,6 +67,7 @@ public class ClienteController {
 		return ResponseEntity.ok(cliente);
 	}
 	
+	@ApiOperation(value = "Deletando um cliente")
 	@DeleteMapping("/{clienteId}")
 	public ResponseEntity<Void> remover (@PathVariable Long clienteId){
 		if (!clienteRepository.existsById(clienteId)) {
